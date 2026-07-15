@@ -22,7 +22,26 @@ The project aims to build a local smart-home prototype that:
 - Saves relevant snapshots
 - Extends the system with known / unknown-or-unrecognised person notifications
 
+## System architecture
 
+```mermaid
+flowchart TB
+    PC[PC administration] -->|Ethernet / local network| RPi[Raspberry Pi 4]
+    PC -->|SSH key authentication| RPi
+
+    RPi --> HA[Home Assistant OS]
+    HA --> Sensors[Sensors and smart devices]
+    HA --> Automations[Automation engine]
+    HA --> Notifications[Mobile push notifications]
+    HA --> MQTT[MQTT broker]
+
+    Camera[IP Camera] -->|RTSP video stream| Frigate[Frigate]
+    Frigate -->|MQTT person events| MQTT
+    Frigate --> Media[Snapshots and recordings]
+
+    Frigate -. planned .-> Face[Face recognition]
+    Face -. known / unknown result .-> Automations
+```
 
 ## Current features
 
