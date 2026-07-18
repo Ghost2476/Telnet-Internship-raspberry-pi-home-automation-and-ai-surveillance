@@ -1,4 +1,5 @@
-flowchart TB
+```mermaid
+    flowchart TB
     Admin[Personal PC] -->|Ethernet / local network| RPi[Raspberry Pi 4]
     Admin -->|SSH key authentication<br/>port 22222| RPi
 
@@ -36,6 +37,7 @@ flowchart TB
     Push --> Pixel[Pixel 6]
     Push --> iPhone[iPhone]
     Push --> iPhone[iPhone]
+```
 
 ## Architecture Explanation
 
