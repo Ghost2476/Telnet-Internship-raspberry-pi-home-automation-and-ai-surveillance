@@ -41,7 +41,7 @@
 
 ## Architecture Explanation
 
-    | Component            | Location                         | Role                                               | Why it is used                                    |
+| Component            | Location                         | Role                                               | Why it is used                                    |
 | -------------------- | -------------------------------- | -------------------------------------------------- | ------------------------------------------------- |
 | Raspberry Pi 4, 2 GB | Local network                    | Runs Home Assistant OS                             | Low-power smart-home controller                   |
 | Home Assistant       | Raspberry Pi                     | Integrations, entities, automations, notifications | Central decision and control layer                |
