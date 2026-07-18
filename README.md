@@ -26,42 +26,46 @@ The project aims to build a local smart-home prototype that:
 
 ## System architecture
 
+# Complete System Architecture
+
 ```mermaid
 flowchart TB
     Admin[Personal PC] -->|Ethernet / local network| RPi[Raspberry Pi 4]
-    Admin -->|SSH key authentication<br/>port 22222| RPi
+    Admin -->|SSH key authentication<br/>Port 22222| RPi
 
     RPi --> HA[Home Assistant OS]
     HA --> Sensors[Sensors and smart devices]
-    HA --> Rules[Automations]
-    HA --> Broker[MQTT broker]
+    HA --> Automations[Automation engine]
+    HA --> MQTT[MQTT broker]
     HA --> Push[Mobile notifications]
 
     Camera[IP Camera] -->|RTSP stream| Frigate[Frigate]
-    Frigate -->|Person events| Broker
+    Frigate -->|Person events| MQTT
     Frigate -->|Snapshots / recordings| Media[Home Assistant media]
 
-    Ghost[Ghost Ubuntu PC] --> Docker[Docker / Docker Compose]
+    Ghost[Ghost Ubuntu PC] --> Docker[Docker and Docker Compose]
     Docker --> DT[Double Take]
     Docker --> CF[CompreFace]
     Docker --> PG[(PostgreSQL)]
 
-    DT -->|Reads Frigate events| Broker
-    DT -->|Face-comparison request| CF
-    CF -->|Persistent application data| PG
-    DT -->|Accepted match event| HA
+    DT -->|Reads Frigate events| MQTT
+    DT -->|Face comparison request| CF
+    CF -->|Persistent service data| PG
+    DT -->|Accepted known match| HA
 
-    Tailscale[Tailscale encrypted mesh VPN]
+    RemoteUser[Authorised remote user] --> Nabu[Nabu Casa / Home Assistant Cloud]
+    Nabu -->|Encrypted access to Home Assistant| HA
+
+    Tailscale[Tailscale private VPN]
     Tailscale --- RPi
     Tailscale --- Ghost
     Tailscale --- Admin
-    Tailscale --- Phones[Authorised mobile devices]
+    Tailscale --- MobileVPN[Authorised mobile devices]
 
-    HA -->|Known or unknown alert| Push
+    HA -->|Known or unknown notification| Push
     Push --> Pixel[Pixel 6]
     Push --> iPhone[iPhone]
 ```
-
 ## Current features
 
 - Raspberry Pi 4 running Home Assistant OS
