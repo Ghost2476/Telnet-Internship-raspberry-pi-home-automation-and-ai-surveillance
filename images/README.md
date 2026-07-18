@@ -10,4 +10,4 @@ Before uploading an image:
 - Blur visitors, neighbours, unknown persons, licence plates, addresses, and identifying home details.
 - Only show known enrolled faces if written consent has been obtained.
 - Prefer cropped screenshots, diagrams, entity pages, traces, and configuration examples.
-- Never upload raw snapshots, recordings, face libraries, training images, database exports, or backups.
+- Never upload raw snapshots, recordings, face libraries, training images, database exports, or backups...
