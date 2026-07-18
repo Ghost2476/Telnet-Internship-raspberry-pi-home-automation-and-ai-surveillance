@@ -1,0 +1,24 @@
+# Sanitised Home Assistant configuration example.
+# Do not copy real secrets, tokens, IP addresses, or cloud URLs into Git.
+
+default_config:
+
+homeassistant:
+  name: Internship Home Automation Prototype
+  unit_system: metric
+  time_zone: Europe/Paris
+
+# Store real passwords and tokens only in a private secrets.yaml file.
+# Example:
+# mqtt_password: !secret mqtt_password
+
+mqtt:
+  broker: <MQTT_BROKER_HOST>
+  port: 1883
+  username: <HOME_ASSISTANT_MQTT_USERNAME>
+  password: <HOME_ASSISTANT_MQTT_PASSWORD>
+
+# Example include statements if configuration is split into files:
+# automation: !include automations.yaml
+# script: !include scripts.yaml
+# scene: !include scenes.yaml

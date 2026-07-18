@@ -1,0 +1,22 @@
+alias: Temperature warning light
+description: Change a smart bulb colour when temperature exceeds a threshold.
+
+triggers:
+  - trigger: numeric_state
+    entity_id: sensor.<TEMPERATURE_SENSOR_ENTITY>
+    above: <TEMPERATURE_THRESHOLD_C>
+
+conditions: []
+
+actions:
+  - action: light.turn_on
+    target:
+      entity_id: light.<SMART_BULB_ENTITY>
+    data:
+      color_name: red
+      brightness_pct: 100
+
+mode: single
+
+# Replace placeholders with real entity IDs only in the private Home Assistant setup.
+# Record the final threshold and test result in docs/08-sensors-and-smart-devices.md.

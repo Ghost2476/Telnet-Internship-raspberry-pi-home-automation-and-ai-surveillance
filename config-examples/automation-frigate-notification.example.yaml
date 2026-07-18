@@ -1,0 +1,61 @@
+alias: Frigate - Outside recognised or unknown person
+description: >
+  Send a recognised-person alert when Double Take returns an accepted match.
+  Send an unknown-person warning if no accepted match arrives in the waiting period.
+
+triggers:
+  - trigger: mqtt
+    topic: frigate/events
+
+conditions:
+  - condition: template
+    value_template: >
+      {{ trigger.payload_json["type"] == "new" and
+         trigger.payload_json["after"]["camera"] == "outside" and
+         trigger.payload_json["after"]["label"] == "person" }}
+
+actions:
+  - wait_for_trigger:
+      - trigger: mqtt
+        topic: double-take/matches/#
+    timeout:
+      seconds: 15
+    continue_on_timeout: true
+
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: >
+              {{ wait.trigger is not none and
+                 wait.trigger.payload_json.camera == "outside" }}
+        sequence:
+          - action: notify.send_message
+            target:
+              entity_id:
+                - notify.<PHONE_1>
+                - notify.<PHONE_2>
+            data:
+              title: Outside camera
+              message: >
+                {{ wait.trigger.topic.split('/')[-1] | replace('_', ' ') | title }}
+                recognised outside.
+              url: /media-browser/browser/frigate
+
+    default:
+      - action: notify.send_message
+        target:
+          entity_id:
+            - notify.<PHONE_1>
+            - notify.<PHONE_2>
+        data:
+          title: Outside camera
+          message: "Unknown person detected outside"
+          url: /media-browser/browser/frigate
+
+mode: parallel
+max: 10
+
+# Important:
+# - Replace notification entities with private local values.
+# - Verify this against the actual working automation before publishing.
+# - Do not place personal notification wording in the public example.

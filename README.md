@@ -1,13 +1,14 @@
 # Raspberry Pi Home Automation and AI Surveillance
 
-> Internship project documenting the design, implementation, testing, and evaluation of a Raspberry Pi based smart-home and AI camera system.
+Internship project documenting a Raspberry Pi based Home Assistant system with sensors, smart-device automations, MQTT communication, Frigate AI video detection, Docker-based face recognition using Double Take and CompreFace, and secure remote access using Tailscale VPN.
 
 ## Project status
+**Status:** Implemented prototype and documentation phase
+The project combines a Raspberry Pi based Home Assistant system with a Docker-based AI face-recognition service hosted on an Ubuntu PC .
 
-**Status:** In development
+Frigate detects people from an IP camera stream. MQTT transfers events between services. Double Take sends relevant face images to CompreFace for recognition. Home Assistant sends a recognised-person notification when an accepted match is received and sends an unknown-person warning when no accepted match is available.
 
-The system currently supports Home Assistant based automation, MQTT communication, Frigate person detection, monitored zones, saved snapshots, and phone notifications. Known-versus-unknown face recognition is planned and will be tested later.
-
+Tailscale VPN provides secure private remote access to authorised project devices without opening router ports or publicly exposing Home Assistant, MQTT, Frigate, Double Take, or CompreFace.
 ## Objectives
 
 The project aims to build a local smart-home prototype that:
@@ -20,42 +21,65 @@ The project aims to build a local smart-home prototype that:
 - Connects an IP camera to Frigate through RTSP
 - Detects people in defined monitored zones: `place1` and `place2`
 - Saves relevant snapshots
-- Extends the system with known / unknown-or-unrecognised person notifications
+- Implements face recognition to distinguish enrolled people from unknown or unrecognised persons
+- Sends different mobile alerts for recognised and unknown persons
 
 ## System architecture
 
 ```mermaid
 flowchart TB
-    PC[PC administration] -->|Ethernet / local network| RPi[Raspberry Pi 4]
-    PC -->|SSH key authentication| RPi
+    Admin[Personal PC] -->|Ethernet / local network| RPi[Raspberry Pi 4]
+    Admin -->|SSH key authentication<br/>port 22222| RPi
 
     RPi --> HA[Home Assistant OS]
     HA --> Sensors[Sensors and smart devices]
-    HA --> Automations[Automation engine]
-    HA --> Notifications[Mobile push notifications]
-    HA --> MQTT[MQTT broker]
+    HA --> Rules[Automations]
+    HA --> Broker[MQTT broker]
+    HA --> Push[Mobile notifications]
 
-    Camera[IP Camera] -->|RTSP video stream| Frigate[Frigate]
-    Frigate -->|MQTT person events| MQTT
-    Frigate --> Media[Snapshots and recordings]
+    Camera[IP Camera] -->|RTSP stream| Frigate[Frigate]
+    Frigate -->|Person events| Broker
+    Frigate -->|Snapshots / recordings| Media[Home Assistant media]
 
-    Frigate -. planned .-> Face[Face recognition]
-    Face -. known / unknown result .-> Automations
+    Ghost[Ghost Ubuntu PC] --> Docker[Docker / Docker Compose]
+    Docker --> DT[Double Take]
+    Docker --> CF[CompreFace]
+    Docker --> PG[(PostgreSQL)]
+
+    DT -->|Reads Frigate events| Broker
+    DT -->|Face-comparison request| CF
+    CF -->|Persistent application data| PG
+    DT -->|Accepted match event| HA
+
+    Tailscale[Tailscale encrypted mesh VPN]
+    Tailscale --- RPi
+    Tailscale --- Ghost
+    Tailscale --- Admin
+    Tailscale --- Phones[Authorised mobile devices]
+
+    HA -->|Known or unknown alert| Push
+    Push --> Pixel[Pixel 6]
+    Push --> iPhone[iPhone]
 ```
 
 ## Current features
 
-- Raspberry Pi based Home Assistant installation
-- Local network and SSH administration
-- Sensor integration and automation development
-- MQTT message broker configuration
-- Home Assistant mobile notification testing
-- IP camera RTSP stream connected to Frigate
-- Person detection and snapshot storage
-- Zone-based monitoring using `place1` and `place2`
-- Notifications sent to multiple phones
-- Planned face-recognition classification for known and unknown/unrecognised people
-
+- Raspberry Pi 4 running Home Assistant OS
+- Headless setup using Ethernet and SSH key authentication on port 22222
+- Sensor and smart-device integration
+- Sensor-based automations, including temperature/light control
+- MQTT communication between Home Assistant, Frigate and Double Take
+- RTSP IP-camera stream processed by Frigate
+- Person detection and monitored zones: `place1` and `place2`
+- Frigate snapshots stored in Home Assistant media
+- Notifications delivered to Pixel 6 and iPhone
+- Ghost Ubuntu PC hosting Docker-based face-recognition services
+- CompreFace face recognition with PostgreSQL persistence
+- Double Take connection between Frigate, CompreFace and MQTT
+- Known identities: Melek and Rayen
+- Different known-person and unknown-person notifications
+- Notification tap action opens Frigate media
+- Tailscale VPN private remote access for authorised devices
 ## Technology stack
 
 | Component | Role |
@@ -115,3 +139,6 @@ It does not contain:
 - The Raspberry Pi has limited processing resources, so AI features must be tested carefully.
 - Remote access depends on network connectivity and the configured remote-access service.
 
+## Privacy and security
+
+This repository contains sanitised examples only. It does not include RTSP URLs, passwords, MQTT credentials, SSH keys, Tailscale auth keys, Home Assistant tokens, real IP addresses, camera snapshots, recordings, face-reference images, CompreFace API keys, PostgreSQL data, Docker volumes, or backups.

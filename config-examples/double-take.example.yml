@@ -1,0 +1,25 @@
+# Sanitised Double Take configuration example.
+# Keep the live configuration private because it contains MQTT and CompreFace secrets.
+
+mqtt:
+  host: <MQTT_BROKER_HOST>
+  port: 1883
+  username: <DOUBLE_TAKE_MQTT_USERNAME>
+  password: <DOUBLE_TAKE_MQTT_PASSWORD>
+  topics:
+    frigate: frigate/events
+    matches: double-take/matches
+
+frigate:
+  url: http://<FRIGATE_HOST>:5000
+
+detectors:
+  compreface:
+    url: http://<COMPREFACE_HOST>:<COMPREFACE_PORT>
+    key: <COMPREFACE_RECOGNITION_API_KEY>
+
+match:
+  min_score: 0.85
+
+# The 0.85 score is the documented prototype threshold.
+# Enrolled face images and detector API keys are never stored in this repository.

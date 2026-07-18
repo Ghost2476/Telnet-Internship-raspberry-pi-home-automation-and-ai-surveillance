@@ -1,0 +1,20 @@
+# Sanitised MQTT design example.
+# MQTT credentials belong in secrets.yaml or another private secret store.
+
+mqtt:
+  broker: <MQTT_BROKER_HOST>
+  port: 1883
+  username: <MQTT_USERNAME>
+  password: <MQTT_PASSWORD>
+
+topics:
+  frigate_events: frigate/events
+  double_take_matches: double-take/matches/#
+
+publishers:
+  - Frigate publishes person-detection events.
+  - Double Take publishes accepted known-face matches.
+
+subscribers:
+  - Home Assistant subscribes to relevant MQTT topics for automations.
+  - Double Take receives Frigate-related event information.

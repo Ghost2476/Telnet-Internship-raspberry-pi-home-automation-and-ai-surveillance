@@ -53,3 +53,8 @@ Zones avoid alerts for irrelevant movement outside the monitored entrance areas.
 
 ### Planned extension
 Use face-recognition output to produce a known-person notification or an unknown/unrecognised-person alert.
+## Notification delivery and remote review
+
+Push notifications are delivered to the enrolled Pixel 6 and iPhone through the Home Assistant Companion App notification service.
+
+When a notification is tapped, it opens the Frigate media area in Home Assistant. If the phone is away from home Wi-Fi, access is available through the private Tailscale connection on the authorised device rather than public camera-service exposure.

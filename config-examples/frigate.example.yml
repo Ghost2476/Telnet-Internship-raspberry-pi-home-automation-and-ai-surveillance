@@ -1,0 +1,49 @@
+# Sanitised Frigate configuration example.
+# Do not publish a real RTSP URL, camera password, IP address, or MQTT credentials.
+
+mqtt:
+  host: <MQTT_BROKER_HOST>
+  port: 1883
+  user: <FRIGATE_MQTT_USERNAME>
+  password: <FRIGATE_MQTT_PASSWORD>
+  topic_prefix: frigate
+
+cameras:
+  outside:
+    ffmpeg:
+      inputs:
+        - path: rtsp://<CAMERA_USERNAME>:<CAMERA_PASSWORD>@<CAMERA_HOST>:554/<STREAM_PATH>
+          roles:
+            - detect
+            - record
+
+    detect:
+      enabled: true
+
+    objects:
+      track:
+        - person
+
+    zones:
+      place1:
+        coordinates: <ZONE_COORDINATES>
+        objects:
+          - person
+
+      place2:
+        coordinates: <ZONE_COORDINATES>
+        objects:
+          - person
+
+    snapshots:
+      enabled: true
+      retain:
+        default: <RETENTION_DAYS>
+
+    record:
+      enabled: true
+      retain:
+        days: <RETENTION_DAYS>
+
+# Zone coordinates and retention periods must be copied only from the private system
+# after sensitive location details have been reviewed.

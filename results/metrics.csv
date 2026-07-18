@@ -1,0 +1,12 @@
+test_id,date,scenario,recognition_result,score,notification_received,delay_seconds,status,notes
+T01,<YYYY-MM-DD>,Home Assistant startup,<N/A>,<N/A>,<N/A>,<seconds>,<pass_or_fail>,<notes>
+T05,<YYYY-MM-DD>,Tailscale connected,<N/A>,<N/A>,<N/A>,<seconds>,<pass_or_fail>,<notes>
+T07,<YYYY-MM-DD>,Sensor state update,<N/A>,<N/A>,<N/A>,<seconds>,<pass_or_fail>,<notes>
+T08,<YYYY-MM-DD>,Temperature light automation,<N/A>,<N/A>,<N/A>,<seconds>,<pass_or_fail>,<notes>
+T09,<YYYY-MM-DD>,Frigate person event,<N/A>,<N/A>,<yes_or_no>,<seconds>,<pass_or_fail>,<notes>
+T11,<YYYY-MM-DD>,Rayen clear face,Rayen,<observed_score>,<yes_or_no>,<seconds>,<pass_or_fail>,<notes>
+T12,<YYYY-MM-DD>,Melek clear face,Melek,<observed_score>,<yes_or_no>,<seconds>,<pass_or_fail>,<notes>
+T13,<YYYY-MM-DD>,Unknown face,unknown,<N/A>,<yes_or_no>,<seconds>,<pass_or_fail>,<notes>
+T14,<YYYY-MM-DD>,Glasses false-positive test,rejected,76.64,<yes_or_no>,<seconds>,<pass_or_fail>,Threshold set to 0.85
+T15,<YYYY-MM-DD>,Notification opens media,<N/A>,<N/A>,<yes_or_no>,<seconds>,<pass_or_fail>,<notes>
+T17,<YYYY-MM-DD>,Restart resilience,<N/A>,<N/A>,<N/A>,<seconds>,<pass_or_fail>,<notes>

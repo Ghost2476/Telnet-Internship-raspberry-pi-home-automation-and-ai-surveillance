@@ -1,0 +1,1 @@
+The Raspberry Pi was selected as the low-power central Home Assistant host. Its responsibility is automation, integrations, MQTT coordination, and user notifications. Face-recognition services were moved to Ghost because the AI workload and container stack are more suitable for the more capable Ubuntu PC.
