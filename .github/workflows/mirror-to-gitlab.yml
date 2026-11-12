@@ -1,0 +1,31 @@
+
+name: Mirror to GitLab
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone GitHub repository
+        run: |
+          git clone --mirror \
+            "https://github.com/${GITHUB_REPOSITORY}.git" repo.git
+
+      - name: Push to GitLab
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+        run: |
+          cd repo.git
+          git push --mirror \
+            "https://oauth2:${GITLAB_TOKEN}@gitlab.com/Ghost2476/Telnet-Internship-raspberry-pi-home-automation-and-ai-surveillance
