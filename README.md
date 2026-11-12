@@ -1,4 +1,4 @@
-# Raspberry Pi Home Automation and AI Surveillance
+#### Raspberry Pi Home Automation and AI Surveillance
 
 Internship project documenting a Raspberry Pi based Home Assistant system with sensors, smart-device automations, MQTT communication, Frigate AI video detection, Docker-based face recognition using Double Take and CompreFace, and secure remote access using Tailscale VPN.
 
