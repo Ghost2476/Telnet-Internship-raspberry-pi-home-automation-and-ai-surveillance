@@ -28,4 +28,4 @@ jobs:
         run: |
           cd repo.git
           git push --mirror \
-            "https://oauth2:${GITLAB_TOKEN}@gitlab.com/Ghost2476/Telnet-Internship-raspberry-pi-home-automation-and-ai-surveillance
+            "https://oauth2:${GITLAB_TOKEN}@gitlab.com/Ghost2476/Telnet-Internship-raspberry-pi-home-automation-and-ai-surveillance.git"
